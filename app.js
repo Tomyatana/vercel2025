@@ -7,6 +7,10 @@ import 'dotenv/config'
 import pkg from 'pg'
 const {Client} = pkg;
 
+let client;
+    client = new Client(config);
+    await client.connect();
+
 const app = express()
 const PORT = 8000
 
@@ -18,16 +22,11 @@ const JWT_OPTS = {
 app.use(express.json())
 
 app.get('/canciones', async (req, res) => {
-  const client = new Client(config);
-  await client.connect();
   let result = await client.query("select * from public.cancion");
   await client.end();
   console.log(result.rows);
   res.send(result.rows)
 })
-
-const client = new Client(config);
-await client.connect();
 
 app.post('/createuser', async (req, res) => {
     const user = req.body;
@@ -93,9 +92,11 @@ app.post("/escucho", async (req, res) => {
         if (result === 0) {
             return res.status(404).json({msg: "Invalid user"})
         }
-        let listened = await client.query("select * from public.escucha where user_id = $1", [user_payload.id]);
-        console.log(listened);
-        res.send(listened)
+        let listened = await client.query(`
+                select e.user_id, c.id, c.nombre, e.reproducciones from public.escucha e 
+                inner join public.cancion c on e.cancion_id = c.id 
+                where e.user_id = $1`, [user_payload.id]);
+        res.send(listened.rows);
     } catch (e) {
         return res.status(500).json({msg: e.message})
     }
