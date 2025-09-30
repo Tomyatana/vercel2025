@@ -12,7 +12,7 @@ export async function createUser(req, res) {
     try {
         const hashedPwd = await bcrypt.hash(user.password, 10);
         user.password = hashedPwd;
-        let result = addUser(user.nombre, user.password)
+        addUser(user.nombre, user.password)
     }
     catch (err) {
         return res.status(500).json({message: err.message});
@@ -28,11 +28,18 @@ export async function login(req, res) {
     }
 
     try {
-        let dbuser = findUser(user.user_id);
+        let dbuser = await findUser(user.user_id);
         if (!dbuser) {
+            return res.status(400).json({msg: "Incorrect user or password"});
+        }
+        if (!dbuser.password) {
             return res.json({msg: "Incorrect user or password"});
         }
-        const pwd_ok = bcrypt.compare(user.password, dbuser.password);
+
+        const pwd_ok = await bcrypt.compare(user.password, dbuser.password);
+        if (!pwd_ok) {
+            return res.status(400).json({msg: "Incorrect user or password"});
+        }
 
         const payload = {
             id: dbuser.user_id,
