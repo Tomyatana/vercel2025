@@ -23,7 +23,6 @@ export async function createUser(req, res) {
 
 export async function login(req, res) {
     const user = req.body;
-    console.log(user);
     if (!user.user_id || !user.password) {
         return res.status(400).json({message: "Invalid fields"});
     }
