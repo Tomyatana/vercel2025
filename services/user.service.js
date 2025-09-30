@@ -9,6 +9,6 @@ export async function addUser(name, pwd) {
 }
 
 export async function findUser(id) {
-    result = await query("select * from public.user where user_id = $1", [id])
+    let result = await query("select * from public.user where user_id = $1", [id])
     return result.rows[0]
 }
