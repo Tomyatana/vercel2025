@@ -1,8 +1,9 @@
 import { Router } from "express";
 import * as EscuchaController from "../controllers/escucha.controller.js";
+import verifyToken from "../middlewares/verifyToken.middleware.js";
 
 const router = Router();
 
-router.get('/escucho', EscuchaController.getListened);
+router.get('/escucho', verifyToken, EscuchaController.getListened);
 
 export default router;
