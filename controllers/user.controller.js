@@ -44,7 +44,9 @@ export async function login(req, res) {
         const payload = {
             id: dbuser.user_id,
             username: dbuser.nombre,
-        }
+            isAdmin: dbuser.is_admin
+        };
+
         const token = jwt.sign(payload, VERY_SECRET_JWT_KEY, JWT_OPTS);
 
         if (pwd_ok) {

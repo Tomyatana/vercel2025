@@ -1,8 +1,8 @@
 import { query } from "../db.js";
 
-export async function addUser(name, pwd) {
-    let result = await query("insert into public.user (nombre, password) values($1, $2)", [
-        name, pwd
+export async function addUser(name, pwd, isAdmin = false) {
+    let result = await query("insert into public.user (nombre, password, is_admin) values($1, $2, $3)", [
+        name, pwd, isAdmin
     ]);
 
     return result.rows[0];

@@ -15,7 +15,7 @@ export default async function verifyToken(req, res, next) {
         req.body.token = undefined;
         console.log(user_payload);
         next();
-    } catch {
-        res.status(400).json({msg:"Expected token"});
+    } catch (e) {
+        res.status(400).json({msg:e.toString()});
     }
 }
