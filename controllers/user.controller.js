@@ -29,6 +29,7 @@ export async function login(req, res) {
 
     try {
         let dbuser = await findUser(user.user_id);
+        console.log(dbuser);
         if (!dbuser) {
             return res.status(400).json({msg: "Incorrect user or password"});
         }
@@ -49,6 +50,7 @@ export async function login(req, res) {
 
         const token = jwt.sign(payload, VERY_SECRET_JWT_KEY, JWT_OPTS);
 
+        console.log(pwd_ok)
         if (pwd_ok) {
             res.send({nombre: dbuser.nombre, token: token})
             return;

@@ -14,8 +14,12 @@ export async function getListened(req, res) {
     if (result === 0) {
         return res.status(404).json({msg: "Invalid user"})
     }
-    let listened = await EscuchaService.getSongsListened(user.id);
-    res.send(listened.rows);
+    try {
+        let listened = await EscuchaService.getSongsListened(user.id);
+        res.status(200).send(listened.rows);
+    } catch (e) {
+        res.status(500).json({msg:e.toString()});
+    }
 }
 
 export async function incListened(req, res) {
@@ -25,8 +29,12 @@ export async function incListened(req, res) {
         return res.status(400).json({message: "Invalid fields"});
     }
     
-    let listened = await EscuchaService.incrementSongsListened(user.id);
-    res.send(listened.rows);
+    try {
+        let listened = await EscuchaService.incrementSongsListened(user.id);
+        res.status(200).send(listened.rows);
+    } catch (e) {
+        res.status(500).json({msg:e.toString()});
+    }
 }
 
 export async function listenSong(req, res) {
@@ -39,7 +47,7 @@ export async function listenSong(req, res) {
     try {
         await EscuchaService.listenSong(id, user.id);
         res.sendStatus(200)
-    } catch {
-        res.sendStatus(500)
+    } catch (e) {
+        res.status(500).json({msg:e.toString()});
     }
 }

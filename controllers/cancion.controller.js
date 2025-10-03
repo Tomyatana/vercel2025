@@ -1,8 +1,12 @@
 import * as CancionService from "../services/cancion.service.js";
 
 export async function getCanciones(req, res) {
-    let result = await CancionService.getPublicCanciones();
-    res.send(result.rows)
+    try {
+        let result = await CancionService.getPublicCanciones();
+        res.send(result.rows);
+    } catch (e) {
+        res.status(500).json({msg:e.toString()});
+    }
 }
 
 export async function createCancion(req, res) {
@@ -10,8 +14,12 @@ export async function createCancion(req, res) {
     if (!name) {
         return res.status(400).json({msg:"Expected name"})
     }
-    await CancionService.addCancion(name);
-    res.sendStatus(200);
+    try {
+        await CancionService.addCancion(name);
+        res.sendStatus(200);
+    } catch (e) {
+        res.status(500).json({msg:e.toString()});
+    }
 }
 
 export async function modifyCancion(req, res) {
@@ -23,8 +31,12 @@ export async function modifyCancion(req, res) {
     if (!id) {
         return res.status(400).json({msg:"Expected id"})
     }
-    await CancionService.modifyCancion(id, name);
-    res.sendStatus(200);
+    try {
+        await CancionService.modifyCancion(id, name);
+        res.sendStatus(200);
+    } catch (e) {
+        res.status(500).json({msg:e.toString()});
+    }
 }
 
 export async function deleteCancion(req, res) {
@@ -32,6 +44,10 @@ export async function deleteCancion(req, res) {
     if (!id) {
         return res.status(400).json({msg:"Expected id"})
     }
-    await CancionService.hideCancion(id);
-    res.sendStatus(200);
+    try {
+        await CancionService.hideCancion(id);
+        res.sendStatus(200);
+    } catch (e) {
+        res.status(500).json({msg:e.toString()});
+    }
 }
