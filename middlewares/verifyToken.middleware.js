@@ -13,7 +13,6 @@ export default async function verifyToken(req, res, next) {
         let user_payload = jwt.verify(token, VERY_SECRET_JWT_KEY);
         req.body.user = user_payload;
         req.body.token = undefined;
-        console.log(user_payload);
         next();
     } catch (e) {
         res.status(400).json({msg:e.toString()});

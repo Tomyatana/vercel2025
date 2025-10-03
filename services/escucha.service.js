@@ -25,7 +25,6 @@ export async function listenSong(cancion_id, user_id) {
             break;
         }
     }
-    console.log(exists);
     if (exists) {
         return incrementSongsListened(cancion_id, user_id);
     }
