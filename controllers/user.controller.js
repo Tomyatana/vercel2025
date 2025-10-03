@@ -12,23 +12,23 @@ export async function createUser(req, res) {
     try {
         const hashedPwd = await bcrypt.hash(user.password, 10);
         user.password = hashedPwd;
-        addUser(user.nombre, user.password)
+        let result = await addUser(user.nombre, user.password);
+        return res.status(200).json({user_id: result.user_id});
     }
     catch (err) {
         return res.status(500).json({message: err.message});
     }
-    res.sendStatus(204);
 
 }
 
 export async function login(req, res) {
     const user = req.body;
-    if (!user.user_id || !user.password) {
+    if (!user.id || !user.password) {
         return res.status(400).json({message: "Invalid fields"});
     }
 
     try {
-        let dbuser = await findUser(user.user_id);
+        let dbuser = await findUser(user.id);
         if (!dbuser) {
             return res.status(400).json({msg: "Incorrect user or password"});
         }
@@ -55,6 +55,6 @@ export async function login(req, res) {
         }
         res.send("Incorrect user or password");
     } catch (e) {
-        return res.status(500).json({msg: e.message})
+        return res.status(500).json({msg: e.toString()})
     }
 }
