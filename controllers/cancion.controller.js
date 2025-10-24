@@ -1,9 +1,10 @@
 import * as CancionService from "../services/cancion.service.js";
+import { Cancion } from "../models/cancion.model.js";
 
 export async function getCanciones(req, res) {
     try {
         let result = await CancionService.getPublicCanciones();
-        res.send(result.rows);
+        res.send(JSON.stringify(result));
     } catch (e) {
         res.status(500).json({msg:e.toString()});
     }

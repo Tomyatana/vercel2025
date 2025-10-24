@@ -3,6 +3,7 @@
 // export POSTGRES_PASSWORD=xxxxx
 // 
 
+import { Sequelize } from "sequelize"
 
 export const config = {
     host :process.env.PGHOST,
@@ -11,7 +12,6 @@ export const config = {
     password:process.env.PGPASSWORD,
     port:5432,
     ssl: true
-}
+};
 
-
- 
+export const sequelize = new Sequelize(process.env.DB_CONN, {});

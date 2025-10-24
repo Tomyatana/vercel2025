@@ -1,21 +1,30 @@
 import { query } from "../db.js";
+import { Cancion } from "../models/cancion.model.js";
 
 export async function getAllCanciones() {
-    return await query("select * from public.cancion");
+    return await Cancion.findAll({attributes: ["id", "nombre"]});
 }
 
 export async function getPublicCanciones() {
-    return await query("select * from public.cancion c where not c.is_hidden");
+    return await Cancion.findAll({
+        attributes: ["id", "nombre"],
+        where: {is_hidden: false}
+    });
 }
 
 export async function addCancion(name, isHidden = false) {
-    return await query("insert into public.cancion(nombre, is_hidden) values ($1, $2)", [name, isHidden]);
+    await Cancion.create({nombre: name, is_hidden: isHidden});
+    await Cancion.sync()
 }
 
 export async function modifyCancion(id, name) {
-    return await query("update public.cancion c set nombre = $2 where c.id = $1", [id, name]);
+    const song = await Cancion.findByPk(id);
+    song.nombre = name;
+    await song.save();
 }
 
 export async function hideCancion(id) {
-    return await query("update public.cancion c set is_hidden = true where c.id = $1", [id]);
+    const song = await Cancion.findByPk(id);
+    song.is_hidden = false;
+    await song.save();
 }
