@@ -9,6 +9,16 @@ import { Cancion } from './models/cancion.model.js';
 import { User } from './models/user.model.js';
 import { Escucha } from './models/escucha.model.js';
 
+User.belongsToMany(Cancion, {
+    through: Escucha,
+    foreignKey: 'user_id',
+})
+
+Cancion.belongsToMany(User, {
+    through: Escucha,
+    foreignKey: 'cancion_id',
+})
+
 try {
     await sequelize.authenticate();
     console.log("Connected successfully");
@@ -23,9 +33,6 @@ app.use(express.json())
 app.use(cancionRouter)
 app.use(userRouter)
 app.use(escuchaRouter)
-
-Escucha.belongsTo(Usuario, { foreignKey: 'user_id' });
-Escucha.belongsTo(Cancion, { foreignKey: 'cancion_id' });
 
 app.listen(PORT, () => {
     console.log(`✅ Server is running on port ${PORT}`);
