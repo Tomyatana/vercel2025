@@ -1,5 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../dbconfig.js";
+import { Cancion } from "./cancion.model.js";
+import { User } from "./user.model.js";
 export class Escucha extends Model {}
 Escucha.init(
     {
