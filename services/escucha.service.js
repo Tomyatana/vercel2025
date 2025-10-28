@@ -1,6 +1,12 @@
 import { query } from "../db.js";
+import { Escucha } from "../models/escucha.model.js";
 
 export async function getSongsListened(user_id) {
+    return await Escucha.findAll({
+        where: {
+            user_id: user_id,
+        },
+    })
     return await query(`
         select e.user_id, c.id as cancion_id, c.nombre, e.fechaEscucha id from public.escucha e 
         inner join public.cancion c on e.cancion_id = c.id 

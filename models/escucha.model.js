@@ -26,14 +26,15 @@ Escucha.init(
                 key: 'id'
             }
         },
-        fechaEscucha: {
+        fecha_escucha: {
             type: DataTypes.DATE,
             allowNull: false
         },
     },
     {
         sequelize,
-        modelName: "Escucha",
-        tableName: "Escucha"
+        modelName: "escucha",
+        tableName: "escucha",
+        timestamps: false
     }
 )

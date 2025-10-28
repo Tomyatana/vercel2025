@@ -16,6 +16,7 @@ export async function getListened(req, res) {
     }
     try {
         let listened = await EscuchaService.getSongsListened(user.id);
+        console.log(JSON.stringify(listened))
         res.status(200).send(listened.rows);
     } catch (e) {
         res.status(500).json({msg:e.toString()});
