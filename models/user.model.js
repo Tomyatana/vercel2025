@@ -1,26 +1,30 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../dbconfig.js";
-export class Cancion extends Model {}
-Cancion.init(
+export class User extends Model {}
+User.init(
     {
-        id: {
+        user_id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
         },
         nombre: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             allowNull: false
         },
-        is_hidden: {
+        password: {
+            type: DataTypes.TEXT,
+            allowNull: false
+        },
+        is_admin: {
             type: DataTypes.BOOLEAN,
             allowNull: false
         },
     },
     {
         sequelize,
-        modelName: "cancion",
-        tableName: "cancion",
+        modelName: "user",
+        tableName: "user",
         timestamps: false,
     }
 )
