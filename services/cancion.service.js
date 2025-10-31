@@ -1,4 +1,3 @@
-import { query } from "../db.js";
 import { Cancion } from "../models/cancion.model.js";
 
 export async function getAllCanciones() {
@@ -8,12 +7,17 @@ export async function getAllCanciones() {
 export async function getPublicCanciones() {
     return await Cancion.findAll({
         attributes: ["id", "nombre"],
-        where: {is_hidden: false}
+        where: {
+            is_hidden: false
+        }
     });
 }
 
 export async function addCancion(name, isHidden = false) {
-    await Cancion.create({nombre: name, is_hidden: isHidden});
+    await Cancion.create({
+        nombre: name, 
+        is_hidden: isHidden
+    });
     await Cancion.sync()
 }
 

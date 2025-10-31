@@ -1,4 +1,3 @@
-import { query } from "../db.js";
 import { User } from "../models/user.model.js";
 
 export async function addUser(name, pwd, isAdmin = false) {

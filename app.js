@@ -22,6 +22,8 @@ Cancion.belongsToMany(User, {
 try {
     await sequelize.authenticate();
     console.log("Connected successfully");
+    await sequelize.sync({ alter: true })
+    console.log("Database sync")
 } catch (e) {
     console.log("Connection failed: ", e);
 }
